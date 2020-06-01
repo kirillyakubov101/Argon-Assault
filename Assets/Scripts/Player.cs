@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour  //TODO Rename to "PlayerController"
 {
+	[Header("General")]
 	[Tooltip("Speed in m*s^-1")][SerializeField] float Speed = 20f;
 	[Tooltip("in m")] [SerializeField] float XRange = 5f;
 	[Tooltip("in m")] [SerializeField] float YRange = 3f;
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
 	[SerializeField] float ControlRollFactor = -20f;
 
 	float XThrow, YThrow;
+	bool haveControl = true; 
 
 	// Start is called before the first frame update
 	void Start()
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+		if (!haveControl) { return; }
 		ProccessTranslation();
 		ProccessRotation();
 	}
@@ -69,8 +72,8 @@ public class Player : MonoBehaviour
 
 	}
 
-	private void OnTriggerEnter(Collider other)
+	private void SetControlStatus(bool status)
 	{
-		print("Hit");
+		haveControl = status;
 	}
 }
