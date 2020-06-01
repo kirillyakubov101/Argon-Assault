@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine;
-using System;
 
 public class Player : MonoBehaviour
 {
@@ -26,7 +25,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 		ProccessTranslation();
 		ProccessRotation();
@@ -54,11 +53,11 @@ public class Player : MonoBehaviour
 	{
 		//Horizontal Move
 		XThrow = CrossPlatformInputManager.GetAxis("Horizontal");
-		float XOffset = XThrow * Speed * Time.deltaTime;
+		float XOffset = XThrow * Speed * Time.fixedDeltaTime;
 
 		//Vertical Move
 		YThrow = CrossPlatformInputManager.GetAxis("Vertical");
-		float YOffset = YThrow * Speed * Time.deltaTime;
+		float YOffset = YThrow * Speed * Time.fixedDeltaTime;
 
 		float RawNewPosX = transform.localPosition.x + XOffset;
 		float RawNewPosY = transform.localPosition.y + YOffset;
@@ -68,5 +67,10 @@ public class Player : MonoBehaviour
 
 		transform.localPosition = new Vector3(ClampedXoffset, ClamedYoffset, transform.localPosition.z);
 
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		print("Hit");
 	}
 }
