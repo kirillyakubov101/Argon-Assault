@@ -27,7 +27,7 @@ public class Player : MonoBehaviour  //TODO Rename to "PlayerController"
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 		if (!haveControl) { return; }
 		ProccessTranslation();
@@ -56,11 +56,11 @@ public class Player : MonoBehaviour  //TODO Rename to "PlayerController"
 	{
 		//Horizontal Move
 		XThrow = CrossPlatformInputManager.GetAxis("Horizontal");
-		float XOffset = XThrow * Speed * Time.fixedDeltaTime;
+		float XOffset = XThrow * Speed * Time.deltaTime;
 
 		//Vertical Move
 		YThrow = CrossPlatformInputManager.GetAxis("Vertical");
-		float YOffset = YThrow * Speed * Time.fixedDeltaTime;
+		float YOffset = YThrow * Speed * Time.deltaTime;
 
 		float RawNewPosX = transform.localPosition.x + XOffset;
 		float RawNewPosY = transform.localPosition.y + YOffset;
