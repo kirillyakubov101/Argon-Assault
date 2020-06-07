@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	
-    // Start is called before the first frame update
-    void Start()
-    {
+	[SerializeField] int scoreHit = 12;
+	[SerializeField] GameObject DeathVFXPrefab;
+	[SerializeField] Transform Parent;
+
+	ScoreBoard scoreBoard;
+
+	// Start is called before the first frame update
+	void Start()
+	{
+		scoreBoard = FindObjectOfType<ScoreBoard>();
 		AddANonTriggerBoxCollider();
-    }
+	}
 
 	private void AddANonTriggerBoxCollider()
 	{
@@ -20,6 +26,16 @@ public class Enemy : MonoBehaviour
 
 	private void OnParticleCollision(GameObject other)
 	{
+		HandleHit();
+	}
+
+	private void HandleHit()
+	{
+		scoreBoard.ScoreHit(scoreHit); //Hit ship and get points
+		GameObject explosion = Instantiate(DeathVFXPrefab, transform.position, Quaternion.identity);
+		explosion.transform.parent = Parent;
+		Destroy(explosion, 5f);
 		Destroy(gameObject);
 	}
+
 }
