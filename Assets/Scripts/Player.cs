@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour  //TODO Rename to "PlayerController"
 {
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour  //TODO Rename to "PlayerController"
 	[Tooltip("Speed in m*s^-1")][SerializeField] float Speed = 20f;
 	[Tooltip("in m")] [SerializeField] float XRange = 5f;
 	[Tooltip("in m")] [SerializeField] float YRange = 3f;
+	[SerializeField] GameObject[] Guns;
 	[Header("Pitch Controls")]
 	[SerializeField] float PositionPitchFactor = -5f;
 	[SerializeField] float ControlPitchFactor = -20f;
@@ -32,6 +34,37 @@ public class Player : MonoBehaviour  //TODO Rename to "PlayerController"
 		if (!haveControl) { return; }
 		ProccessTranslation();
 		ProccessRotation();
+		ProccessFire();
+	}
+
+	private void ProccessFire()
+	{
+		if (CrossPlatformInputManager.GetButton("Fire1"))
+		{
+			//activate the particle effects
+			ActivateGuns();
+		}
+		else
+		{
+			//deactivate the particle effects
+			DeactivateGuns();
+		}
+	}
+
+	private void ActivateGuns()
+	{
+		foreach(var gun in Guns)
+		{
+			gun.SetActive(true);
+		}
+	}
+
+	private void DeactivateGuns()
+	{
+		foreach (var gun in Guns)
+		{
+			gun.SetActive(false);
+		}
 	}
 
 	private void ProccessRotation()
